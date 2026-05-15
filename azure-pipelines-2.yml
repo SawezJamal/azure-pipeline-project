@@ -1,0 +1,40 @@
+trigger:
+- main
+
+pool:
+  name: 'MyLocalPool'
+
+steps:
+
+- checkout: self
+  displayName: 'Checkout Code from GitHub'
+
+- script: mvn clean test
+  displayName: 'Build and Run Unit Tests'
+
+- task: PublishTestResults@2
+  inputs:
+    testResultsFiles: '**/target/surefire-reports/TEST-*.xml'
+    testResultsFormat: 'JUnit'
+    failTaskOnMissingResultsFile: true
+  displayName: 'Publish Maven Test Results'
+
+- task: PublishBuildArtifacts@1
+  inputs:
+    PathtoPublish: 'target'
+    ArtifactName: 'drop'
+    publishLocation: 'Container'
+  displayName: 'Publish Build Artifacts'
+STEP 24 — Run Pipeline
+
+Click:
+
+Run
+STEP 25 — Verify Build
+
+Check:
+
+source code checkout
+Maven build
+unit tests
+artifacts
